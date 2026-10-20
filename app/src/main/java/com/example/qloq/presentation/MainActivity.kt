@@ -16,22 +16,31 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.qloq.presentation.theme.QLOQTheme
 import java.lang.System.currentTimeMillis
 
-//Initialisation class
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sharedPreferences = getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
 
-        // below line is to get to integer values from our shared prefs.
-        // If not present set default to 30.
-        val hungerStat = sharedPreferences.getInt("hungerStat", 30)
-        val thirstStat = sharedPreferences.getInt("thirstStat", 30)
-        val happinessStat = sharedPreferences.getInt("happinessStat", 30)
+        val hungerStat = sharedPreferences.getInt("hungerStat", 60)
+        val thirstStat = sharedPreferences.getInt("thirstStat", 60)
+        val happinessStat = sharedPreferences.getInt("happinessStat", 70)
+        val energyStat = sharedPreferences.getInt("energyStat", 85)
+        val xpStat = sharedPreferences.getInt("xpStat", 0)
+        val mealsEaten = sharedPreferences.getInt("mealsEaten", 0)
+        val stepsCount = sharedPreferences.getInt("stepsCount", 0)
 
-        //Update the Sprite's statistics based on the last time they were seen.
-        val sprite = QloSprite("Qlo", hungerStat, thirstStat, happinessStat)
+        val sprite = QloSprite(
+            name = "Qlo",
+            hunger = hungerStat,
+            thirst = thirstStat,
+            happiness = happinessStat,
+            initialEnergy = energyStat,
+            initialXp = xpStat,
+            initialMeals = mealsEaten,
+            initialSteps = stepsCount
+        )
         val lastTimeSeen = sharedPreferences.getLong("timeStamp", currentTimeMillis())
-        sprite.updateStats(lastTimeSeen - currentTimeMillis())
+        sprite.updateStats(currentTimeMillis() - lastTimeSeen)
 
         setContent {
             QloqApp(sprite, sharedPreferences)
@@ -39,7 +48,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//The initial Qloq application module
 @Composable
 fun QloqApp(sprite: QloSprite, sharedPreferences: SharedPreferences) {
     QLOQTheme {
@@ -60,10 +68,9 @@ fun QloqApp(sprite: QloSprite, sharedPreferences: SharedPreferences) {
 }
 
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
-//Enables Device specific previews in the Default Preview Android Studio window
 @Composable
 fun DefaultPreview() {
-    val sprite = QloSprite("Qlo", 45, 45, 45)
+    val sprite = QloSprite("Qlo", 65, 65, 75)
     val context = LocalContext.current
     QloqApp(sprite, PreferenceManager.getDefaultSharedPreferences(context))
 }

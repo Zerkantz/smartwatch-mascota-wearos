@@ -1,37 +1,45 @@
-## QLOQ
+# QLOQ 2.0 — Mascota Virtual Interactiva para Smartwatch (Wear OS)
 
-### Demo Video
+Mascota virtual interactiva tipo Tamagotchi desarrollada en **Kotlin** y **Jetpack Compose for Wear OS**, diseñada específicamente para pantallas circulares de relojes inteligentes.
 
-Link to the video of Qloq's Demonstration: ['Qloq FYP Demonstration Video'](https://www.youtube.com/watch?v=bjQb8Nmwj_I)
+---
 
-### Installation Instructions
+## Características Principales
 
-Please find the android APK for Qloq (Qloq.apk) available for download in my Gitlab repository within the Builds.zip file. Once you have downloaded the apk, You have two options:
+### 1. Animaciones Procedurales a 60 FPS en Compose Canvas
+- **Respiración y rebote continuo (*squash & stretch*):** la mascota tiene movimiento orgánico en todo momento.
+- **Parpadeo y miradas dinámicas:** las pupilas reaccionan y siguen la inclinación de la muñeca.
+- **Animación interactiva de comida y bebida:** al alimentar a la mascota (hamburguesa, manzana, taco o baya dorada), la comida vuela hacia su boca, mastica rítmicamente abriendo y cerrando la boca, suelta migajas de colores y su estómago crece.
 
-> **Option 1**: Download / Sideload this apk to a WearOS smartwatch and install it.
-> (Instructions taken from https://www.guidingtech.com/how-to-install-apks-on-wear-os-smartwatches/)
+### 2. Sistema de Crecimiento y 4 Etapas de Evolución
+Conforme alimentas, juegas y caminas con tu reloj, la mascota gana **XP** y **aumenta su tamaño físico (`growthScale`)**:
+- **Nivel 1 — Bebé Retoño (Escala 78%):** cuerpo pequeño con tierna antena de hoja en la cabeza.
+- **Nivel 2 — Joven Saltarín (Escala 100%):** le crecen orejas/cuernitos y mejillas sonrosadas.
+- **Nivel 3 — Adulto Alado (Escala 122%):** desarrolla alas laterales que aletean continuamente.
+- **Nivel 4+ — Maestro Cósmico (Escala 142%+):** corona dorada flotante y aura luminosa pulsante.
 
-1.  Preparing your watch:
-    1. Enable Developer Options / Tools on your Watch by going to your system settings and tapping on your Build number 7 times.
-    2. Navigate to Developer Options
-    3. Enable ADB Debugging
-    4. Enable Debug over Wifi
-    5. In the Debug Over Wifi option that appears, note the IP address and port number.
-2.  Installing the APK via ADB
-    1. Download the APK from Github to a computer or laptop. Copy it to the ‘platform-tools’ folder where ADB is installed.
-    2. In a terminal window, type “./adb connect < IP address from earlier >"
-    3. If all goes well, you will see a prompt on your watch to allow the ADB connection, select OK
-    4. The Terminal window will also show whether you are connected to the watch.
-    5. Use the command ./adb push <filename.apk> /sdcard/ to transfer the APK to the watch. The file will be pushed to your watch as confirmed by the terminal result.
-    6. It’s now time to install the app. Type this command, where the filename.apk should be the filename of the APK you want to install: “./adb -e install <filename.apk>”
-    7. A Success message will now be displayed on the terminal indicating that the app has been installed on your watch.
-    8. Head back to Developer Options on your watch and disable ADB debugging so as not to drain battery.
-    9. If all is successful, open the app drawer on your watch and find Qloq!
+### 3. Integración con Sensores del Reloj Inteligente
+- **Acelerómetro (`TYPE_ACCELEROMETER`):**
+  - **Inclinación de muñeca:** la mascota se desliza e inclina por la pantalla según la gravedad del reloj.
+  - **Sacudida del reloj (Shake):** al agitar el reloj, la mascota realiza un giro acrobático de 360°, vibra mediante retroalimentación háptica y gana +25 XP.
+- **Podómetro / Contador de Pasos (`TYPE_STEP_COUNTER` / `TYPE_STEP_DETECTOR`):**
+  - Al caminar con el reloj puesto, la mascota se coloca una banda deportiva, levanta polvo al correr y suma pasos y XP.
+- **Sensor de Luz Ambiental (`TYPE_LIGHT`):**
+  - Al cubrir el reloj o entrar en un entorno oscuro (< 15 lux), el fondo cambia automáticamente a **noche estrellada** y la mascota duerme (Zzz) recuperando energía.
+- **Sensor de Ritmo Cardíaco (`TYPE_HEART_RATE`):**
+  - Sincroniza la frecuencia de pulso del aura con tus BPM reales.
 
-> **Option 2**: Run the apk on an emulator.
+---
 
-1.  Download Android Studio
-2.  Set up a new virtual device. Recommendation: Wear OS Large Round API 30 (Watch)
-3.  Download the R Image and wait for the setup and installation.
-4.  Download the .apk file from Gitlab and drag and drop the .apk file into the emulator. It will automatically install.
-5.  Go to your app list and find Qloq!
+## Requisitos de Construcción
+- **Android Studio** (Koala / Ladybug o superior)
+- **SDK de Android:** `compileSdk 35`, `minSdk 30` (Wear OS 3.0+)
+- **Gradle:** 9.6.0 + Android Gradle Plugin 9.4.1 + Kotlin 2.2.10
+
+---
+
+## Cómo Ejecutarlo
+1. Clona o abre esta carpeta en **Android Studio**.
+2. Selecciona un dispositivo virtual o físico de **Wear OS** (ej. *Wear OS Large Round*).
+3. Haz clic en **Run (▶)** para instalar y ejecutar.
+4. En el emulador puedes probar los sensores desde **Extended Controls (...) → Virtual Sensors**, o usar los botones de prueba rápida en la pantalla de detalles de la app.
